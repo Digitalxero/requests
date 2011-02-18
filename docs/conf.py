@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Requests'
-copyright = u'2011, Kenneth Reitz'
+project = 'Requests'
+copyright = '2011, Kenneth Reitz'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -178,8 +178,8 @@ htmlhelp_basename = 'Requestsdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Requests.tex', u'Requests Documentation',
-   u'Kenneth Reitz', 'manual'),
+  ('index', 'Requests.tex', 'Requests Documentation',
+   'Kenneth Reitz', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -211,8 +211,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'requests', u'Requests Documentation',
-     [u'Kenneth Reitz'], 1)
+    ('index', 'requests', 'Requests Documentation',
+     ['Kenneth Reitz'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -224,7 +224,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Requests', u'Requests Documentation', u'Kenneth Reitz',
+  ('index', 'Requests', 'Requests Documentation', 'Kenneth Reitz',
    'Requests', 'One line description of project.', 'Miscellaneous'),
 ]
 

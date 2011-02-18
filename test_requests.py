@@ -8,9 +8,9 @@ if sys.version_info >= (3,0):
     from io import StringIO
 else:
     try:
-        from cStringIO import StringIO
+        from io import StringIO
     except ImportError:
-        from StringIO import StringIO
+        from io import StringIO
 
 import requests
 

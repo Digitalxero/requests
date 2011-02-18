@@ -10,11 +10,11 @@
     :license: ISC, see LICENSE for more details.
 """
 
-from __future__ import absolute_import
-import urllib
-import urllib2
 
-from urllib2 import HTTPError
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
+
+from urllib.error import HTTPError
 
 try:
     import eventlet
@@ -45,21 +45,21 @@ AUTOAUTHS = []
 
 
 
-class _Request(urllib2.Request):
+class _Request(urllib.request.Request):
     """Hidden wrapper around the urllib2.Request object. Allows for manual
     setting of HTTP methods.
     """
     
     def __init__(self, url, data=None, headers={}, origin_req_host=None,
                  unverifiable=False, method=None):
-        urllib2.Request.__init__(self, url, data, headers, origin_req_host, unverifiable)
+        urllib.request.Request.__init__(self, url, data, headers, origin_req_host, unverifiable)
         self.method = method
 
     def get_method(self):
         if self.method:
             return self.method
 
-        return urllib2.Request.get_method(self)
+        return urllib.request.Request.get_method(self)
 
 
 class Request(object):
@@ -112,30 +112,30 @@ class Request(object):
 
             if self.auth:
 
-                authr = urllib2.HTTPPasswordMgrWithDefaultRealm()
+                authr = urllib.request.HTTPPasswordMgrWithDefaultRealm()
 
                 authr.add_password(None, self.url, self.auth.username, self.auth.password)
-                auth_handler = urllib2.HTTPBasicAuthHandler(authr)
+                auth_handler = urllib.request.HTTPBasicAuthHandler(authr)
 
                 _handlers.append(auth_handler)
 
             if self.cookiejar:
 
-                cookie_handler = urllib2.HTTPCookieProcessor(cookiejar)
+                cookie_handler = urllib.request.HTTPCookieProcessor(cookiejar)
                 _handlers.append(cookie_handler)
 
-            opener = urllib2.build_opener(*_handlers)
+            opener = urllib.request.build_opener(*_handlers)
             return opener.open
 
         else:
-            return urllib2.urlopen
+            return urllib.request.urlopen
 
 
     def _build_response(self, resp):
         """Build internal Response object from given response."""
         
         self.response.status_code = resp.code
-        self.response.headers = resp.info().dict
+        self.response.headers = resp.info().__dict__
         self.response.content = resp.read()
         self.response.url = resp.url
 
@@ -161,7 +161,7 @@ class Request(object):
 
                 # url encode GET params if it's a dict
                 if isinstance(self.params, dict):
-                    params = urllib.urlencode(self.params)
+                    params = urllib.parse.urlencode(self.params)
                 else:
                     params = self.params
 
@@ -177,7 +177,7 @@ class Request(object):
                     self._build_response(resp)
                     self.response.ok = True
 
-                except urllib2.HTTPError, why:
+                except urllib.error.HTTPError as why:
                     self._build_response(why)
                     self.response.error = why
 
@@ -209,7 +209,7 @@ class Request(object):
                     self._build_response(resp)
                     self.response.ok = True
 
-                except urllib2.HTTPError, why:
+                except urllib.error.HTTPError as why:
                     self._build_response(why)
                     self.response.error = why
 
@@ -231,7 +231,7 @@ class Request(object):
 
                     # url encode form data if it's a dict
                     if isinstance(self.data, dict):
-                        req.data = urllib.urlencode(self.data)
+                        req.data = urllib.parse.urlencode(self.data)
                     else:
                         req.data = self.data
 
@@ -242,7 +242,7 @@ class Request(object):
                     self._build_response(resp)
                     self.response.ok = True
 
-                except urllib2.HTTPError, why:
+                except urllib.error.HTTPError as why:
                     self._build_response(why)
                     self.response.error = why
         
@@ -268,7 +268,7 @@ class Response(object):
     def __repr__(self):
         return '<Response [%s]>' % (self.status_code)
         
-    def __nonzero__(self):
+    def __bool__(self):
         """Returns true if status_code is 'OK'."""
         return not self.error
         
